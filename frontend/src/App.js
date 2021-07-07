@@ -6,7 +6,7 @@ function App() {
   const [user, setUser] = useState([]);
 
   function getData() {
-    fetch("http://localhost:3001/users/list", { method: "GET" })
+    fetch("http://localhost:3001/users/list?page=1&limit=5", { method: "GET" })
       .then((response) => response.json())
       .then((data) => setUser(data));
   }

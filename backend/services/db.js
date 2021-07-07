@@ -20,39 +20,47 @@ function connectToDb(callback) {
   });
 }
 
-const findDocuments = async () => {
+async function findDocuments(page) {
   //trás os itens da coleção
   const collection = _db.collection("users");
-  //Procura por algum item
+  //trás os itens páginados
   try {
-    const results = await collection.find({}).toArray();
+    const sizePage = 5;
+    const sizeSkip = sizePage * (page - 1);
+    const results = await collection
+      .find()
+      .skip(sizeSkip)
+      .limit(sizePage)
+      .toArray();
     return results;
   } catch (error) {
     throw new Error(error);
   }
-  
-};
+}
 
 const insertDocument = async (document) => {
   //trás os itens da coleção
   const collection = _db.collection("users");
-  //inserindo um item  
+  //inserindo um item
   try {
     const results = await collection.insertOne(document);
     return results;
   } catch (error) {
     throw new Error(error);
-  }  
+  }
 };
 
 const updateDocument = async (document) => {
   //trás os itens da coleção
   const collection = _db.collection("users");
-  //Att um item 
+  //Att um item
   try {
-    const results = await collection.updateOne({_id: document._id}, { $set: document });
+    const results = await collection.updateOne(
+      { _id: document._id },
+      { $set: document }
+    );
     return results;
-  } catch(error) {
+  } catch (error) {
     throw new Error(error);
   }
 };
@@ -60,11 +68,11 @@ const updateDocument = async (document) => {
 const removeDocument = async (document) => {
   //trás os itens da coleção
   const collection = _db.collection("users");
-  //remove um item 
+  //remove um item
   try {
-    const results = await collection.deleteOne({_id: document._id});
+    const results = await collection.deleteOne({ _id: document._id });
     return results;
-  } catch(error) {
+  } catch (error) {
     throw new Error(error);
   }
 };
@@ -74,15 +82,8 @@ module.exports = {
   findDocuments,
   insertDocument,
   updateDocument,
-  removeDocument
-}
-
-
-
-
-
-
-
+  removeDocument,
+};
 
 // teste de conexão
 // connectToDb(async () => {

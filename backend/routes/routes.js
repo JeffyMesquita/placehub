@@ -15,7 +15,8 @@ db.connectToDb((err) => {
   };  
 
   router.post("/add", async (req, res) => {
-    const results = await db.insertDocument(req.body);
+    const  { name, age, email } = req.body; 
+    const results = await db.insertDocument({ name, age, email });
     res.send(results);
   });
 
